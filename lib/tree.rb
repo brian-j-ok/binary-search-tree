@@ -5,18 +5,18 @@ class Tree
   attr_accessor :root
 
   def initialize(input_arr)
-    @tree_arr = input_arr
-    @tree_arr.uniq!.sort!
-    pp @tree_arr
-    build_tree(@tree_arr)
+    input_arr.uniq!
+    @root = build_tree(input_arr)
   end
 
   def build_tree(build_arr, start_arr = 0, end_arr = build_arr.size - 1)
     return nil if start_arr > end_arr
 
+    build_arr.sort!
+
     mid_arr = (start_arr + end_arr) / 2
+
     node = Node.new(build_arr[mid_arr])
-    @root ||= node
 
     node.left_child = build_tree(build_arr, start_arr, mid_arr - 1)
     node.right_child = build_tree(build_arr, mid_arr + 1, end_arr)
@@ -135,10 +135,8 @@ class Tree
 
   def rebalance
     arr = level_order
-    pp arr
-    arr.sort!
-    pp arr
-    build_tree(arr)
+    arr.uniq!
+    @root = build_tree(arr)
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -148,23 +146,42 @@ class Tree
   end
 end
 
-tree = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
-# tree.insert(20)
+tree = Tree.new(Array.new(15) { rand(1..100)} )
 tree.pretty_print
+puts tree.balanced?
+pp tree.level_order
+pp tree.preorder
+pp tree.inorder
+pp tree.postorder
+tree.insert(110)
+tree.insert(115)
+tree.insert(120)
+tree.insert(150)
+tree.insert(200)
+tree.pretty_print
+puts tree.balanced?
+tree.rebalance
+puts tree.balanced?
+tree.pretty_print
+
+
+# tree = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+# # tree.insert(20)
+# tree.pretty_print
 # tree.delete(20)
 # tree.pretty_print
 # p tree.find(4).value
-pp tree.level_order
-pp tree.inorder
-pp tree.preorder
-pp tree.postorder
-puts tree.height
-puts tree.depth
-puts tree.depth(tree.find(9))
-puts tree.balanced?
-tree.insert(10)
-tree.insert(50)
-tree.insert(69)
-tree.pretty_print
-tree.rebalance
-tree.pretty_print
+# pp tree.level_order
+# pp tree.inorder
+# pp tree.preorder
+# pp tree.postorder
+# puts tree.height
+# puts tree.depth
+# puts tree.depth(tree.find(9))
+# puts tree.balanced?
+# tree.insert(10)
+# tree.insert(50)
+# tree.insert(69)
+# tree.pretty_print
+# tree.rebalance
+# tree.pretty_print
